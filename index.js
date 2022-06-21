@@ -4,6 +4,9 @@ const express = require('express')
 const helmet = require("helmet")
 const cors = require("cors")
 
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+
 const morgan = require("morgan")
 var path = require('path')
 var rfs = require('rotating-file-stream')
@@ -28,8 +31,22 @@ app.use(express.urlencoded({ extended: true, limit: '100mb' }))
 const routes = require('./routes/index.route')(app)
 const model = require('./models/index.model')
 
+const httpServer = createServer(app)
+
+const io = new Server(httpServer, {
+    cors: {
+        origin: '*'
+    }
+})
+
+const onConnection = (socket) => {
+    console.log(socket.handshake.auth)
+}
+
+io.on("connection", onConnection)
+
 const PORT = process.env.PORT || 8081
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`)
 })

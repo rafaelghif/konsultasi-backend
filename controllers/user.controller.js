@@ -18,6 +18,41 @@ const authentication = async (req, res) => {
     }
 }
 
+const getUsers = async (req, res) => {
+    try {
+        const response = await User.findAll()
+        return res.status(200).json(response)
+    } catch (err) {
+        return res.status(500).json({ msg: err.toString() })
+    }
+}
+
+const addUser = async (req, res) => {
+    try {
+        req.body.password = bcrypt.hashSync(req.body.password, 10)
+        const response = await User.create(req.body)
+        return res.status(200).json(response)
+    } catch (err) {
+        return res.status(500).json({ msg: err.toString() })
+    }
+}
+
+const updateUser = async (req, res) => {
+    try {
+        const response = await User.update(req.body, {
+            where: {
+                id: req.body.id
+            }
+        })
+        return res.status(200).json({ msg: `Success Update User ${req.body.id}` })
+    } catch (err) {
+        return res.status(500).json({ msg: err.toString() })
+    }
+}
+
 module.exports = {
     authentication,
+    getUsers,
+    addUser,
+    updateUser
 }
