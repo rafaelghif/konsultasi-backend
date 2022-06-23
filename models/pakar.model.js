@@ -18,7 +18,15 @@ const Pakar = connDatabase.define('Pakar', {
     description: {
         type: DataTypes.STRING,
         allowNull: false,
-    }
+    },
+    email: {
+        type: DataTypes.STRING(150),
+        allowNull: false,
+        unique: true,
+        validate: {
+            isEmail: true
+        }
+    },
 })
 
 module.exports = Pakar

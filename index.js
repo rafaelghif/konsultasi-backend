@@ -39,12 +39,6 @@ const io = new Server(httpServer, {
     }
 })
 
-const onConnection = (socket) => {
-    console.log(socket.handshake.auth)
-}
-
-io.on("connection", onConnection)
-
 const PORT = process.env.PORT || 8081
 
 httpServer.listen(PORT, () => {

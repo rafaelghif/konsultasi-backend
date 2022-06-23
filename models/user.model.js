@@ -25,6 +25,10 @@ const User = connDatabase.define('User', {
     },
     role: {
         type: DataTypes.ENUM('Super User', 'Admin', 'Pakar', 'User')
+    },
+    socketId: {
+        type: DataTypes.CHAR(36),
+        defaultValue: DataTypes.UUIDV4
     }
 })
 
