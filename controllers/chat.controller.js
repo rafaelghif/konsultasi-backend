@@ -1,5 +1,5 @@
 const { Op } = require("sequelize")
-const { Chat, ChatDetail } = require("../models/index.model")
+const { Chat, ChatDetail, User } = require("../models/index.model")
 
 const getChats = async (req, res) => {
     try {
@@ -47,7 +47,23 @@ const getChats = async (req, res) => {
                 ]
             })
         }
+        return res.status(200).json(response)
+    } catch (err) {
+        return res.status(500).json({ msg: err.toString() })
+    }
+}
 
+const getUserList = async (req, res) => {
+    try {
+        const response = await Chat.findAll({
+            include: [{
+                model: User,
+                as: 'UserId'
+            }],
+            where: {
+                user2: req.params.userId,
+            },
+        })
         return res.status(200).json(response)
     } catch (err) {
         return res.status(500).json({ msg: err.toString() })
@@ -55,5 +71,6 @@ const getChats = async (req, res) => {
 }
 
 module.exports = {
-    getChats
+    getChats,
+    getUserList
 }

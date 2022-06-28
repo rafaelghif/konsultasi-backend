@@ -23,6 +23,14 @@ const Chat = connDatabase.define('Chat', {
             model: User,
             key: 'id'
         }
+    },
+    socketIdUser1: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    socketIdUser2: {
+        type: DataTypes.STRING,
+        allowNull: true
     }
 })
 

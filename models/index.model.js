@@ -36,10 +36,10 @@ const initializeUser = async () => {
 model.User.hasOne(model.Pakar)
 model.Pakar.belongsTo(model.User)
 
-model.User.hasMany(model.Chat, { foreignKey: 'user1' })
-model.User.hasMany(model.Chat, { foreignKey: 'user1' })
-model.Chat.belongsTo(model.User, { foreignKey: 'user1' })
-model.Chat.belongsTo(model.User, { foreignKey: 'user2' })
+model.User.hasMany(model.Chat, { foreignKey: 'user1', as: 'UserId' })
+model.User.hasMany(model.Chat, { foreignKey: 'user2', as: 'PakarId' })
+model.Chat.belongsTo(model.User, { foreignKey: 'user1', as: 'UserId' })
+model.Chat.belongsTo(model.User, { foreignKey: 'user2', as: 'PakarId' })
 
 model.Chat.hasMany(model.ChatDetail)
 model.ChatDetail.belongsTo(model.Chat)

@@ -5,7 +5,6 @@ const helmet = require("helmet")
 const cors = require("cors")
 
 const { createServer } = require("http");
-const { Server } = require("socket.io");
 
 const morgan = require("morgan")
 var path = require('path')
@@ -22,22 +21,18 @@ app.use(cors())
 app.use(helmet({
     crossOriginResourcePolicy: false,
 }))
+
 app.use(morgan('combined', { stream: accessLogStream }))
 
 app.use(express.static('public'))
 app.use(express.json({ limit: '100mb' }))
 app.use(express.urlencoded({ extended: true, limit: '100mb' }))
 
-const routes = require('./routes/index.route')(app)
-const model = require('./models/index.model')
-
 const httpServer = createServer(app)
 
-const io = new Server(httpServer, {
-    cors: {
-        origin: '*'
-    }
-})
+const routes = require('./routes/index.route')(app)
+const model = require('./models/index.model')
+const socketServer = require('./socket/index')(httpServer)
 
 const PORT = process.env.PORT || 8081
 
